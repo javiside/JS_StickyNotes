@@ -124,18 +124,20 @@ myStorage = window.localStorage;
      * Populate the wrapper with the saved notes (on windows load)
      */
     window.onload = function () {
-        for (var savedNotes in myStorage) {
-            var sNote = (JSON.parse(myStorage[savedNotes]));
-            createNote(
-                sNote.identifier,
-                sNote.noteText,
-                sNote.createdTime,
-                sNote.modDate,
-                sNote.noteColor,
-                sNote.noteTrans,
-                sNote.top,
-                sNote.left
-            );
+        if (myStorage.length > 0) {
+            for (var i = 0; i< myStorage.length; i++) {
+                var sNote = (JSON.parse(myStorage[i]));
+                createNote(
+                    sNote.identifier,
+                    sNote.noteText,
+                    sNote.createdTime,
+                    sNote.modDate,
+                    sNote.noteColor,
+                    sNote.noteTrans,
+                    sNote.top,
+                    sNote.left
+                );
+            }
         }
     }
 })();
