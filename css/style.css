@@ -58,5 +58,24 @@ textarea{
     font-size: .9rem;
     color: black;
     text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white;
+    cursor: url('../img/open.png')20 10, pointer;
     /* Using JS for width and height*/
+}
+.stickyDiv:active{
+    cursor: url('../img/closed.png')20 10, pointer;
+}
+.red{
+    background-color: red;
+}
+.white{
+    background-color: white;
+}
+.yellow{
+    background-color: yellow;
+}
+.green{
+    background-color: green;
+}
+.royalblue{
+    background-color: royalblue;
 }
