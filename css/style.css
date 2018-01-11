@@ -1,15 +1,15 @@
 /* TAG selectors */
 html{                   /*Internet Explorer FIX*/
     height: 100%;
-    background-color: #EEE;
+    background-color: #404040;
 } 
 body{
     position: relative;
     box-sizing: border-box;
     width: 95%;
     height: 100%;
-    min-height: 500px;
-    min-width: 500px;
+    min-height: 800px;
+    min-width: 800px;
     margin-left: auto;
     margin-right: auto;
     font-family: Arial, Helvetica, sans-serif;
@@ -18,10 +18,17 @@ body{
 header{
     display:flex;
     height: 30px;
-    background-color: #EEE;
+    background-color: #404040;
 }
 main{
     height: 96%;
+}
+button{
+    border: 2px outset white;
+    background-color: #505050;
+    color: white;
+    margin: 2px;
+    font-size: 1rem;
 }
 textarea{
     overflow-y: auto;
@@ -36,13 +43,19 @@ textarea{
 
 /* #ID Selectors */
 #closeButton{
+    background-color: red;
+    border: 2px outset darkred;
     position: absolute;
     display: inline-block; 
-    height: 20px;
+    height: 22px;
     top: 0;
     right: 0;
+    width: 8%;
+    height: 8%;
+    font-size: 70%;
+    margin: 0;
+    padding: 0;
 }
-
 /* .Class Selectors */
 .stickyDiv{
     position: absolute;
@@ -63,6 +76,7 @@ textarea{
 }
 .stickyDiv:active{
     cursor: url('../img/closed.png')20 10, pointer;
+    opacity: .5;
 }
 .red{
     background-color: red;

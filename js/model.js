@@ -1,7 +1,8 @@
 define(function(){
     var myStorage = window.localStorage;
-    
+    var savedNotes = {};
     return {
-        myStorage : myStorage
+        myStorage : myStorage,
+        savedNotes : savedNotes
     }
 })

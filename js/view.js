@@ -1,7 +1,9 @@
-define(['underscore'], function(_){
+define(['underscore'], function (_) {
+    var createButton = document.getElementById("createButton");
+    var deleteButton = document.getElementById("deleteButton");
     var wrapper = document.getElementById("wrapper");
-var template =_.template( 
-    `<div class="stickyDiv <%= noteClass %>" style="<%= noteStyle %>">
+    var template = _.template(
+        `<div class="stickyDiv <%= noteClass %>" style="<%= noteStyle %>">
         <text id="topInfo"><%= topInfo %></text>
         <button id="closeButton">X</button>
         <textarea cols="10" rows="10"><%= noteText %></textarea>
@@ -9,7 +11,9 @@ var template =_.template(
     </div>`);
 
     return {
-        wrapContainer : wrapper,
-        noteTemplate : template
+        createButton: createButton,
+        deleteButton: deleteButton,
+        wrapContainer: wrapper,
+        noteTemplate: template
     }
 });
