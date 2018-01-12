@@ -16,12 +16,15 @@ body{
     border: 5px ridge darkred;
 }
 header{
-    display:flex;
+    position: absolute;
+    display:inline-block;
     height: 30px;
     background-color: #404040;
+    z-index: 5;
 }
 main{
     height: 96%;
+    z-index: -1;
 }
 button{
     border: 2px outset white;
@@ -29,6 +32,7 @@ button{
     color: white;
     margin: 2px;
     font-size: 1rem;
+    z-index: 5;
 }
 textarea{
     overflow-y: auto;
@@ -55,6 +59,7 @@ textarea{
     font-size: 70%;
     margin: 0;
     padding: 0;
+    z-index: 2;
 }
 /* .Class Selectors */
 .stickyDiv{
@@ -72,11 +77,13 @@ textarea{
     color: black;
     text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white;
     cursor: url('../img/open.png')20 10, pointer;
+    z-index: 1;
     /* Using JS for width and height*/
 }
 .stickyDiv:active{
     cursor: url('../img/closed.png')20 10, pointer;
     opacity: .5;
+    z-index: 3;
 }
 .red{
     background-color: red;
