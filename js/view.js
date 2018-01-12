@@ -3,13 +3,12 @@ define(['underscore'], function (_) {
     var deleteButton = document.getElementById("deleteButton");
     var wrapper = document.getElementById("wrapper");
     var template = _.template(
-        `<div class="stickyDiv <%= noteClass %>" style="<%= noteStyle %>">
-        <text id="topInfo"><%= topInfo %></text>
+        `<div id="<%= noteID %>" class="stickyDiv <%= noteClass %>" style="<%= noteStyle %>">
+        <text>#<%= noteID %> <%= initInfo %></text>
         <button id="closeButton">X</button>
         <textarea cols="10" rows="10"><%= noteText %></textarea>
         <text id="modID"><%= modInfo %></text>
     </div>`);
-
     return {
         createButton: createButton,
         deleteButton: deleteButton,

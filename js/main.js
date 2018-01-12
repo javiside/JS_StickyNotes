@@ -10,14 +10,18 @@ require(['model', 'view', 'underscore', 'events'], function (model, view, _, eve
     addEventListener("click", handleClick);
 
     events.on('noteCreated', saveNewNoteData);
-    events.on('noteCreated', renderNote);
+    events.on('changeOnNotes', render);
 
     function handleClick(event) {
-        switch (event.target.id) {
+        var eID = event.target.id;
+        switch (eID) {
             case "closeButton": closeNote(); break;
             case "createButton": createNote(); break;
             case "deleteButton": deleteNotes(); break;
             default: break;
+        }
+        if (eID == "closeButton" || eID == "createButton" || eID == "deleteButton"){
+            events.trigger('changeOnNotes', model.savedNotes);
         }
     }
 
@@ -34,7 +38,6 @@ require(['model', 'view', 'underscore', 'events'], function (model, view, _, eve
     }
 
     function createNote() {
-
         // A constructor for defining new notes
         function Note(options) {
             // Defaults
@@ -52,7 +55,6 @@ require(['model', 'view', 'underscore', 'events'], function (model, view, _, eve
         function NotesFactory() { };
 
         // DEFINE THE PROTYTPES AND UTILITIES FOR THIS FACTORY
-
         // Our default noteClass is Note
         NotesFactory.prototype.noteClass = Note;
 
@@ -84,20 +86,29 @@ require(['model', 'view', 'underscore', 'events'], function (model, view, _, eve
         events.trigger('noteCreated', note);
     }
 
+    //Save note's data
     function saveNewNoteData(note) {
         model.savedNotes[note.noteID] = note;
-        console.dir(model.savedNotes)
     }
 
-    function renderNote(note) { //TODO refactorize render function
-        wrapper.innerHTML +=
-            view.noteTemplate({
-                noteClass: note.noteClass,
-                noteStyle: note.noteStyle,
-                topInfo: ("#" + note.noteID + " " + note.initInfo),
-                noteText: note.noteText,
-                modInfo: note.modInfo
-            });
+    function closeNote() {
+        var id = event.target.parentNode.id;
+        delete model.savedNotes[id];
+    }
+
+    function deleteNotes(){
+        wrapper.innerHTML = "";
+        for (var i in model.savedNotes) {
+            delete model.savedNotes[i];
+        }
+    }
+    function render(savedNotes) { //TODO refactorize render function
+
+        wrapper.innerHTML = "";
+        for (var i in savedNotes) {
+            wrapper.innerHTML += view.noteTemplate(savedNotes[i]);
+        }
+        console.dir(model.savedNotes)
     }
 
 })
