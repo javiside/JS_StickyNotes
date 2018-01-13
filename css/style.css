@@ -46,7 +46,7 @@ textarea{
 }
 
 /* #ID Selectors */
-#closeButton{
+#closeNote{
     background-color: red;
     border: 2px outset darkred;
     position: absolute;
@@ -77,13 +77,11 @@ textarea{
     color: black;
     text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white;
     cursor: url('../img/open.png')20 10, pointer;
-    z-index: 1;
     /* Using JS for width and height*/
 }
-.stickyDiv:active{
+.mouseDown{
     cursor: url('../img/closed.png')20 10, pointer;
     opacity: .5;
-    z-index: 3;
 }
 .red{
     background-color: red;
@@ -99,4 +97,10 @@ textarea{
 }
 .royalblue{
     background-color: royalblue;
+}
+.black{
+    background-color: black;
+}
+.pink{
+    background-color: darkcyan;
 }

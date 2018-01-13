@@ -9,26 +9,20 @@ define(['underscore', 'events'], function (_, events) {
                 height:<%= noteHeight %>px;
                 left:<%= noteLeft %>%;
                 top:<%= noteTop %>%;
+                transform: rotate(<%= noteRot %>deg);
             "
          >
         <text>#<%= noteID %> <%= initInfo %></text>
-        <button id="closeButton">X</button>
-        <textarea cols="10" rows="10"><%= noteText %></textarea>
+        <button id="closeNote">X</button>
+        <textarea id="updateNote" cols="10" rows="10"><%= noteText %></textarea>
         <text id="modID"><%= modInfo %></text>
     </div>`);
 
     //BIND EVENTS//
-    addEventListener("resize", function (event) {events.trigger('sizeChanged', wrapper)});
-    addEventListener("change", function (event) {events.trigger('noteUpdated', event.target)});
-    addEventListener("click", function (event) {
-        var target = event.target
-        switch (target.id) {
-            case "createButton": events.trigger('noteCreated', "Create clicked!"); break;
-            case "closeButton": events.trigger('noteDeleted', target.parentNode); break;
-            case "deleteButton": events.trigger('allDeleted', "Delete all clicked!");; break;
-            default: break;
-        }
-    });
+    addEventListener("resize", function (event) { events.trigger('sizeChanged', wrapper) });
+    addEventListener("change", function (event) { events.trigger('noteUpdated', { name: event.target.id, note: event.target }) });
+   // addEventListener("mousedown", function (event) { events.trigger('clicked', { name: event.target.id, note: event.target }) });
+    addEventListener("mouseup", function (event) { events.trigger('clicked', { name: event.target.id, note: event.target }) });
 
     events.on('changeOnNotes', render);
 
@@ -38,11 +32,11 @@ define(['underscore', 'events'], function (_, events) {
             case "DIV": element.remove(); break;
             case "DELETEALL": wrapper.innerHTML = ""; break;
             case "UPDATED":
-            //Updating the note (div) properties instead of removing and replacing
+                //Updating the note (div) properties instead of removing and replacing
                 element.oldNoteArea.innerHTML = element.newNote.noteText;
                 element.oldNoteMod.innerHTML = element.newNote.modInfo;
-                element.oldNote.style.left = element.newNote.noteLeft+"%";
-                element.oldNote.style.top = element.newNote.noteTop+"%";
+                element.oldNote.style.left = element.newNote.noteLeft + "%";
+                element.oldNote.style.top = element.newNote.noteTop + "%";
                 break;
             default: break;
         }

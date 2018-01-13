@@ -8,10 +8,11 @@ define(function () {
         this.initInfo   = options.initInfo   || new Date().toJSON().substr(2, 14).replace('T', ' ');
         this.modInfo    = options.modInfo    || new Date().toJSON().substr(2, 14).replace('T', ' ');
         this.noteText   = options.noteText   || "";
-        this.noteWidth  = options.noteWidth  || "20%";
-        this.noteHeight = options.noteHeight || "20%";
-        this.noteLeft   = options.noteLeft   || "10%";
-        this.noteTop    = options.noteTop    || "10%";
+        this.noteWidth  = options.noteWidth  || "20";
+        this.noteHeight = options.noteHeight || "20";
+        this.noteLeft   = options.noteLeft   || "10";
+        this.noteTop    = options.noteTop    || "10";
+        this.noteRot    = options.noteRot    || "5";
     }
 
     // Define a skeleton note factory
