@@ -3,6 +3,7 @@ define(function () {
      function Note(options) {
         // Defaults
         this.noteID     = options.noteID     || "1";
+        this.noteType   = options.noteType   || "note";
         this.tagName    = options.tagName    || "NOTE";
         this.noteClass  = options.noteClass  || "white";
         this.initInfo   = options.initInfo   || new Date().toJSON().substr(2, 14).replace('T', ' ');
