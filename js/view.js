@@ -20,17 +20,6 @@ define(['underscore', 'events'], function (_, events) {
         <text id="modID"><%= modInfo %></text>
     </div>`);
 
-
-    //BIND EVENTS//
-    addEventListener("beforeunload", confirmExit);
-    addEventListener("resize", function (event) { events.trigger('sizeChanged', wrapper) });
-    addEventListener("mousedown", function (event) { events.trigger('clicked', { name: event.target.id, target: event.target, type: "down", info: event }) });
-    addEventListener("mouseup", function (event) { events.trigger('clicked', { name: event.target.id, target: event.target, type: "up" }) });
-    addEventListener("keydown", function (event) { events.trigger('KeyDown', { name: event.target.id, textArea: event.target, note: event.target.parentNode, key: event.key }) });
-
-    events.on('changeOnNotes', render);
-    events.on('sizeChanged', changeSize);
-
     //Check localStorage for saved notes on load
     (function () {
         localStorage['lastNote'] = localStorage['lastNote'] || 0;
@@ -48,6 +37,16 @@ define(['underscore', 'events'], function (_, events) {
         }
     }
     )();
+
+    //BIND EVENTS//
+    addEventListener("beforeunload", confirmExit);
+    addEventListener("resize", function (event) { events.trigger('sizeChanged', wrapper) });
+    addEventListener("mousedown", function (event) { events.trigger('clicked', { name: event.target.id, target: event.target, type: "down", info: event }) });
+    addEventListener("mouseup", function (event) { events.trigger('clicked', { name: event.target.id, target: event.target, type: "up" }) });
+    addEventListener("keydown", function (event) { events.trigger('KeyDown', { name: event.target.id, textArea: event.target, note: event.target.parentNode, key: event.key, ctrlKey:event.ctrlKey }) });
+    
+    events.on('changeOnNotes', render);
+    events.on('sizeChanged', changeSize);
 
     function render(el) {
         switch (el.tagName) {

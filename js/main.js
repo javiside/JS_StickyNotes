@@ -140,9 +140,15 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
                 });
                 event.target.ondragend = function (eventEnd) {
                     var target = eventEnd.target.parentNode.parentNode;
-                    model.savedNotes[target.id].noteLeft = target.style.left.substr(0,5);
-                    model.savedNotes[target.id].noteTop = target.style.top.substr(0,5);
+                    model.savedNotes[target.id].noteLeft = target.style.left.substr(0, 5);
+                    model.savedNotes[target.id].noteTop = target.style.top.substr(0, 5);
                 }
+            }
+        },
+        undo: function (event) {
+            var key = event.key;
+            if (event.type == "up" || key == " " || key == 'Enter' || (key == 'z' && event.ctrlKey)) {
+                alert("UNDO or CTRL + Z");
             }
         },
         beforeunload: function () {
@@ -152,7 +158,9 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
 
         },
         execute: function (exec) {
-            return noteManager[exec.name] && noteManager[exec.name].apply(noteManager, arguments);
+            return (exec.key === 'z' && exec.ctrlKey) ?
+                noteManager["undo"].apply(noteManager, arguments) :
+                noteManager[exec.name] && noteManager[exec.name].apply(noteManager, arguments);
         }
     };
 
