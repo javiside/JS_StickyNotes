@@ -110,7 +110,6 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
 
         },
         closeNote: function (event) {
-            console.dir(event)
             if (event.type === "up" || event.type === "undo") {
                 if (event.type === "undo"){
                     var id = event.id;
