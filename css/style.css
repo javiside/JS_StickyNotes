@@ -17,9 +17,8 @@ body{
 }
 header{
     position: absolute;
-    display:flex;
+    display:table;
     height: 30px;
-    width: 100%;
     background-color: #404040;
     z-index: 5;
 }
@@ -71,8 +70,8 @@ textarea{
     text-shadow: 0 0 2px darkred, 0 0 2px darkred, 0 0 2px darkred;
 }
 #undo{
-    position: absolute;
-    right: 0;
+    position: relative;
+    left: 0;
 }
 /* .Class Selectors */
 .stickyDiv{
@@ -133,7 +132,7 @@ textarea{
     padding-left: 5%;
     cursor: url('../img/open.png')20 10, pointer;
 }
-.noteInfo:active{
+.stickyDiv:active{
     cursor: url('../img/closed.png')20 10, move;
     opacity: .5;
 }
@@ -180,11 +179,13 @@ textarea{
     --color: darkcyan;
 }
 .editing{
+    background-color: hsla(0, 100%, 100%, .5);
     background-image: url('../img/editing.png');
     background-position: bottom left;
     background-repeat: no-repeat;
 }
 .saved{
+    background-color: hsla(0, 100%, 100%, .5);
     background-image: url('../img/saved.png');
     background-position: bottom left;
     background-repeat: no-repeat;
@@ -196,5 +197,4 @@ textarea{
     background-color: transparent;
     border: 2px inset white;
     margin-left: 50px;
-    width: 30%;
 }

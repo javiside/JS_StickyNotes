@@ -22,6 +22,7 @@ define(['underscore', 'events'], function (_, events) {
 
     //Check localStorage for saved notes on load
     (function () {
+        localStorage.historyStack = localStorage.historyStack || JSON.stringify([]);
         localStorage['lastNote'] = localStorage['lastNote'] || 0;
         if (localStorage.length > 0) {
             for (var i in localStorage) {
@@ -43,20 +44,22 @@ define(['underscore', 'events'], function (_, events) {
     addEventListener("resize", function (event) { events.trigger('sizeChanged', wrapper) });
     addEventListener("mousedown", function (event) { events.trigger('clicked', { name: event.target.id, target: event.target, type: "down", info: event }) });
     addEventListener("mouseup", function (event) { events.trigger('clicked', { name: event.target.id, target: event.target, type: "up" }) });
-    addEventListener("keydown", function (event) { events.trigger('KeyDown', { name: event.target.id, textArea: event.target, note: event.target.parentNode, key: event.key, ctrlKey:event.ctrlKey }) });
-    
+    addEventListener("keydown", function (event) { events.trigger('KeyDown', { name: event.target.id, textArea: event.target, note: event.target.parentNode, key: event.key, ctrlKey: event.ctrlKey }) });
+
     events.on('changeOnNotes', render);
     events.on('sizeChanged', changeSize);
 
     function render(el) {
         switch (el.tagName) {
             case "NOTE": wrapper.innerHTML += template(el); break;
-            case "DIV": el.remove(); break;
+            case "CLOSE": document.getElementById(el.id).remove(); break;
             case "DELETEALL": wrapper.innerHTML = ""; break;
             case "UPDATED":
+                var txtParent = document.getElementById(el.targetID);
+                console.dir(el)
                 //Updating the note (div) text and modDate instead of removing and replacing
-                el.textArea.innerHTML = el.textEntered;
-                el.modDate.innerHTML = el.newModDate;
+                txtParent.children.updateNote.innerHTML = el.textEntered;
+                txtParent.children.modID.innerHTML = el.newModDate;
                 break;
             case "SEARCH":
                 wrapper.innerHTML = "";
@@ -65,7 +68,7 @@ define(['underscore', 'events'], function (_, events) {
                 }
                 break;
             case "MOVED": (function (event) {
-                var target = event.target;
+                var target = document.getElementById(event.targetID);
                 var event = event.event;
 
                 if (event.pageX > 0 && event.pageX > 0) {
@@ -74,6 +77,13 @@ define(['underscore', 'events'], function (_, events) {
                 }
             })(el);
                 break
+            case "MOVEBACK": (function(event){
+                var id = event.targetID;
+                var target = document.getElementById(id);
+                target.style.left = event.initialLeft+'%';
+                target.style.top = event.initialTop+'%';
+            })(el);
+                break;
             default: break;
         }
     }

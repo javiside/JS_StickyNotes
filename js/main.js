@@ -5,7 +5,7 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
 
     var noteManager = {
         createNote: function (event) {
-            if (event.type === "up") {
+            if (event.type === "up" || event.type === "undo") {
                 /* * Get random values for position, rotate and color */
                 function getRand(opt, from, to) {
                     switch (opt) {
@@ -21,21 +21,31 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
                             return; break;
                     }
                 };
-                identifier++; //every time we create a new note, we increment the identifier
-                var note = factory.noteFactory.createNotes({
-                    noteType: "note",
-                    noteID: identifier,
-                    tagName: "NOTE",
-                    noteClass: getRand("color"),
-                    initInfo: getNewNotenDate(),
-                    modInfo: getNewNotenDate(),
-                    noteText: "",
-                    noteWidth: view.offset,
-                    noteHeight: view.offset,
-                    noteLeft: getRand("number", 0, 80),
-                    noteTop: getRand("number", 0, 70),
-                    noteRot: getRand("rotate", 5, 10)
-                });
+                var note = (function (model, undoEvent) {
+                    if (event.type === "undo") {
+                        return factory.noteFactory.createNotes(undoEvent.note);
+                    }
+                    else {
+                        identifier++; //every time we create a new note, we increment the identifier
+                        var newNote = factory.noteFactory.createNotes({
+                            noteType: "note",
+                            noteID: identifier,
+                            tagName: "NOTE",
+                            noteClass: getRand("color"),
+                            initInfo: getNewNotenDate(),
+                            modInfo: getNewNotenDate(),
+                            noteText: "",
+                            noteWidth: view.offset,
+                            noteHeight: view.offset,
+                            noteLeft: getRand("number", 0, 80),
+                            noteTop: getRand("number", 0, 70),
+                            noteRot: getRand("rotate", 5, 10)
+                        });
+                        model.historyStack.push({ name: "undoCreate", id: newNote.noteID.toString(), type: "undo" });
+                        return newNote;
+                    }
+                })(model, event);
+
                 this.saveNewNoteData(note);
                 events.trigger('sizeChanged', wrapper);
             }
@@ -66,8 +76,12 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
                         textArea.className = "saved";
                         setTimeout(function () { textArea.className = ""; }, 300);
 
-                        //Save the new info
                         var savedNote = model.savedNotes[note.id];
+
+                        //Save the previous info for the undo
+                        model.historyStack.push({ name: "undoEdit", noteID: savedNote.noteID.toString(), prevText: savedNote.noteText, prevMod: savedNote.modInfo, type: "undo" });
+
+                        //Save the new info
                         savedNote.noteText = textArea.value;
                         savedNote.modInfo = getNewNotenDate();
                         //Trigger the event for the view module
@@ -75,31 +89,58 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
                             tagName: "UPDATED",
                             textEntered: savedNote.noteText,
                             newModDate: savedNote.modInfo,
-                            textArea: textArea,
+                            targetID: textArea.parentNode.id,
                             modDate: note.children.modID
                         });
                     }, 600);
                 }
             }
         },
+        restoreText: function(event){
+            var prevText = event.prevText;
+            var prevMod = event.prevMod;
+            model.savedNotes[event.noteID].noteText = prevText;
+            model.savedNotes[event.noteID].modDate = prevMod;
+            events.trigger('changeOnNotes', {
+                tagName: "UPDATED",
+                textEntered: prevText,
+                newModDate: prevMod,
+                targetID: event.noteID,
+            });
 
+        },
         closeNote: function (event) {
-            if (event.type === "up") {
-                var parent = event.target.parentNode.parentNode; //target<header<note (div)
-                var id = parent.id;
+            console.dir(event)
+            if (event.type === "up" || event.type === "undo") {
+                if (event.type === "undo"){
+                    var id = event.id;
+                }
+                if (event.type !== "undo") {
+                    var id = event.target.parentNode.parentNode.id;
+                    model.historyStack.push({ name: "undoClose", note: model.savedNotes[id], type: "undo" });
+                }
                 delete model.savedNotes[id];
                 delete localStorage[id];
-                events.trigger('changeOnNotes', parent);
+                events.trigger('changeOnNotes', { tagName: "CLOSE", id: id });
             }
         },
 
-        deleteNotes: function (event) {
-            if (event.type === "up") {
-                for (var i in model.savedNotes) {
-                    delete model.savedNotes[i];
+        deleteAll: function (event) {
+            if (event.type === "up" || event.type === "undo") {
+                var saveAll = [];
+                if (event.type !== "undo") {
+                    for (var i in model.savedNotes) {
+                        saveAll.push(model.savedNotes[i])
+                        delete model.savedNotes[i];
+                    }
+                    model.historyStack.push({ name: "undoDeleteAll", deletedNotes: saveAll, type: "undo" });
                 }
-                localStorage.clear();
                 events.trigger('changeOnNotes', { tagName: "DELETEALL" });
+            }
+        },
+        restoreAll(event) {
+            for (var i in event.deletedNotes) {
+                this.saveNewNoteData(event.deletedNotes[i]);
             }
         },
         search: function (exec) {
@@ -130,32 +171,76 @@ define(['view', 'model', 'factory', 'underscore', 'events'], function (view, mod
             }
         },
         drag: function (event) {
-            if (event.type === "down") {
+            if (event.type === "down" || event.type === "undo") {
+                var target = event.target.parentNode.parentNode;
+                
+                var initialLeft = target.style.left.substr(0, 2);
+                var initialTop = target.style.top.substr(0, 2);
+                if (event.type !== "undo") {
                 event.target.addEventListener("drag", function (dragEvent) {
                     events.trigger("changeOnNotes", {
                         tagName: "MOVED",
                         event: dragEvent,
-                        target: event.target.parentNode.parentNode
+                        targetID: target.id
                     })
                 });
-                event.target.ondragend = function (eventEnd) {
-                    var target = eventEnd.target.parentNode.parentNode;
-                    model.savedNotes[target.id].noteLeft = target.style.left.substr(0, 5);
-                    model.savedNotes[target.id].noteTop = target.style.top.substr(0, 5);
+                    event.target.ondragend = function (eventEnd) {
+                        var target = eventEnd.target.parentNode.parentNode;
+                        model.savedNotes[target.id].noteLeft = target.style.left.substr(0, 5);
+                        model.savedNotes[target.id].noteTop = target.style.top.substr(0, 5);
+                    }
+                    model.historyStack.push({ name: "undoDrag", targetID: target.id, initialLeft: initialLeft, initialTop: initialTop, type: "undo" });
+
                 }
+                else{alert("should move back")}
             }
+        },
+        moveBack: function(event){
+            var id = event.targetID;
+            model.savedNotes[id].noteLeft = event.initialLeft;
+            model.savedNotes[id].noteTop = event.initialTop;
+            events.trigger('changeOnNotes', { tagName: "MOVEBACK", targetID: event.targetID, initialLeft: event.initialLeft, initialTop: event.initialTop});
         },
         undo: function (event) {
             var key = event.key;
             if (event.type == "up" || key == " " || key == 'Enter' || (key == 'z' && event.ctrlKey)) {
-                alert("UNDO or CTRL + Z");
+                if (model.historyStack.length > 0) {
+                    var stack = model.historyStack;
+                    var last = stack[stack.length - 1];
+
+                    switch (last.name) {
+                        case "undoCreate":
+                            model.historyStack.pop();
+                            this.closeNote(last);
+                            break;
+                        case "undoClose":
+                            model.historyStack.pop();
+                            this.createNote(last);
+                            break;
+                        case "undoDeleteAll":
+                            model.historyStack.pop();
+                            this.restoreAll(last);
+                            break;
+                        case "undoDrag":
+                            model.historyStack.pop();
+                            this.moveBack(last);
+                            break;
+                        case "undoEdit":
+                            model.historyStack.pop();
+                            this.restoreText(last);
+                            break;
+
+                        default:
+                            break;
+                    }
+                } else { alert("No more undo items") }
             }
         },
         beforeunload: function () {
             for (var i in model.savedNotes) {
                 localStorage[i] = JSON.stringify(model.savedNotes[i]);
             }
-
+            localStorage.historyStack = JSON.stringify(model.historyStack);
         },
         execute: function (exec) {
             return (exec.key === 'z' && exec.ctrlKey) ?
