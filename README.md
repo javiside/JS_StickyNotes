@@ -3,7 +3,7 @@
 ### Sticky Notes ###
 
 * Sticky Notes usin JS and patterns
-* version Alpha
+* version Alpha (Chrome tested)
 
 ### Version 0.1 ###
 
@@ -41,4 +41,4 @@ Added undo button and detecting ctrl + Z event. Changed notes style
 Finished undo event, added historyStack on model module.
 
 ### Version Alpha ###
-Updated Read.me, first release (alpha) version
+Updated Read.me, first release (alpha) version (Chrome tested)
