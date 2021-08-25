@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JS</title>
+    <script data-main="js/main" src="js/require.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+  </head>
 
-<head>
-	<title>JS</title>
-	<script data-main="js/main" src="js/require.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-</head>
-
-<body>
-	<header>
-		<button id="undo">Undo</button>
-		<button id="createNote">Create Note</button>
-		<button id="deleteAll">Delete All Notes</button>
-		<input type="text" id="search" class="searchBox" placeholder="Search Notes...(just type)">
-	</header>
-	<main>
-		<div id="wrapper">
-		</div>
-	</main>
-</body>
-
+  <body>
+    <header>
+      <button id="undo">Undo</button>
+      <button id="createNote">Create Note</button>
+      <button id="deleteAll">Delete All Notes</button>
+      <input
+        type="text"
+        id="search"
+        class="searchBox"
+        placeholder="Search Notes...(just type)"
+      />
+    </header>
+    <main>
+      <div id="wrapper"></div>
+    </main>
+  </body>
 </html>

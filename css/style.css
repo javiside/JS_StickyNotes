@@ -1,200 +1,209 @@
 /* TAG selectors */
-html{                   /*Internet Explorer FIX*/
-    height: 100%;
-    background-color: #404040;
-} 
-body{
-    position: relative;
-    box-sizing: border-box;
-    width: 95%;
-    height: 100%;
-    min-height: 800px;
-    min-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: Arial, Helvetica, sans-serif;
-    border: 5px ridge darkred;
+html {
+  /*Internet Explorer FIX*/
+  height: 100%;
+  background-color: #404040;
 }
-header{
-    position: absolute;
-    display:table;
-    height: 30px;
-    background-color: #404040;
-    z-index: 5;
+body {
+  position: relative;
+  box-sizing: border-box;
+  width: 95%;
+  height: 100%;
+  min-height: 800px;
+  min-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 5px ridge darkred;
 }
-main{
-    height: 96%;
-    z-index: -1;
+header {
+  position: absolute;
+  display: table;
+  height: 30px;
+  background-color: #404040;
+  z-index: 5;
 }
-button{
-    border: 2px outset white;
-    background-color: #505050;
-    color: white;
-    margin: 2px;
-    font-size: 1rem;
-    z-index: 5;
+main {
+  height: 96%;
+  z-index: -1;
 }
-textarea{
-    overflow-y: auto;
-    resize: none;
-    font-size: 2.5rem;
-    width : 90%;
-    height : 80%; 
-    border : none; 
-    border-radius: 5px;
-    background: -webkit-linear-gradient(135deg, transparent 3%, rgba(200,200,200,.25) 10px);
+button {
+  border: 2px outset white;
+  background-color: #505050;
+  color: white;
+  margin: 2px;
+  font-size: 1rem;
+  z-index: 5;
+}
+textarea {
+  overflow-y: auto;
+  resize: none;
+  font-size: 2.5rem;
+  width: 90%;
+  height: 80%;
+  border: none;
+  border-radius: 5px;
+  background: -webkit-linear-gradient(
+    135deg,
+    transparent 3%,
+    rgba(200, 200, 200, 0.25) 10px
+  );
 }
 
 /* #ID Selectors */
-#closeNote{
-    position: absolute;
-    flex-shrink: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    height: 100%;
-    top: 0;
-    right: 0;
-    width: 15%;
-    font-size: 100%;
-    margin-left: 5px;
-    padding: 0;
-    z-index: 3;
-    color:black;
+#closeNote {
+  position: absolute;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: 15%;
+  font-size: 100%;
+  margin-left: 5px;
+  padding: 0;
+  z-index: 3;
+  color: black;
 }
-#closeNote:hover{
-    cursor: pointer;
-    font-weight: bold;
-    color:white;
-    text-shadow: 0 0 2px darkred, 0 0 2px darkred, 0 0 2px darkred;
+#closeNote:hover {
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 2px darkred, 0 0 2px darkred, 0 0 2px darkred;
 }
-#undo{
-    position: relative;
-    left: 0;
+#undo {
+  position: relative;
+  left: 0;
 }
 /* .Class Selectors */
-.stickyDiv{
-    position: absolute;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    filter: alpha(opacity=90);
-    font-weight: bold;
-    opacity: .9;
-    font-size: .9rem;
-    color: black;
-    box-shadow: -2px -2px 5px rgba(20, 20, 20, 0.548);
-    text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white;
-    background-image: url('../img/texture.png');
-    background: -webkit-linear-gradient(135deg, transparent 7.5%, var(--color) 10px);
-    /* Using JS for width and height*/  
+.stickyDiv {
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  filter: alpha(opacity=90);
+  font-weight: bold;
+  opacity: 0.9;
+  font-size: 0.9rem;
+  color: black;
+  box-shadow: -2px -2px 5px rgba(20, 20, 20, 0.548);
+  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white;
+  background-image: url("../img/texture.png");
+  background: -webkit-linear-gradient(
+    135deg,
+    transparent 7.5%,
+    var(--color) 10px
+  );
+  /* Using JS for width and height*/
 }
 .stickyDiv:before {
-    content: " ";
-    display: block;
-    position: absolute;
-    background: -webkit-linear-gradient(
-        135deg, 
-        transparent 50%, 
-        hsl( var(--hueColor), var(--satColor), var(--lumColor)) 
-        10px);
-    width: 15%;
-    height: 15%;
-    right: 0;
-    bottom: 0; 
+  content: " ";
+  display: block;
+  position: absolute;
+  background: -webkit-linear-gradient(
+    135deg,
+    transparent 50%,
+    hsl(var(--hueColor), var(--satColor), var(--lumColor)) 10px
+  );
+  width: 15%;
+  height: 15%;
+  right: 0;
+  bottom: 0;
 }
 .stickyDiv:after {
-    content: " ";
-    display: block;
-    position: absolute;
-    box-shadow: -2px -2px 3px rgba(20, 20, 20, 0.548);
-    width: 15%;
-    height: 15%;
-    right: 0;
-    bottom: 0; 
+  content: " ";
+  display: block;
+  position: absolute;
+  box-shadow: -2px -2px 3px rgba(20, 20, 20, 0.548);
+  width: 15%;
+  height: 15%;
+  right: 0;
+  bottom: 0;
 }
-.noteHeader{
-    position: relative;
-    display: flex; 
-    flex-flow: column;
-    align-items: space-between;
-    justify-content: center;
-    width: 100%;
-    height: 10%;
-    background-image:url('../img/texture.png');
+.noteHeader {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: space-between;
+  justify-content: center;
+  width: 100%;
+  height: 10%;
+  background-image: url("../img/texture.png");
 }
-.noteInfo{
-    flex-shrink: 2;
-    text-align: left;
-    padding-left: 5%;
-    cursor: url('../img/open.png')20 10, pointer;
+.noteInfo {
+  flex-shrink: 2;
+  text-align: left;
+  padding-left: 5%;
+  cursor: url("../img/open.png") 20 10, pointer;
 }
-.stickyDiv:active{
-    cursor: url('../img/closed.png')20 10, move;
-    opacity: .5;
+.stickyDiv:active {
+  cursor: url("../img/closed.png") 20 10, move;
+  opacity: 0.5;
 }
-.red{
-    --hueColor: 0;
-    --satColor: 100%;
-    --lumColor: 40%;
-    --color: red;
+.red {
+  --hueColor: 0;
+  --satColor: 100%;
+  --lumColor: 40%;
+  --color: red;
 }
-.white{
-    --hueColor: 0;
-    --satColor: 0%;
-    --lumColor: 90%;
-    --color: white;
+.white {
+  --hueColor: 0;
+  --satColor: 0%;
+  --lumColor: 90%;
+  --color: white;
 }
-.yellow{
-    --hueColor: 60;
-    --satColor: 100%;
-    --lumColor: 40%;
-    --color: yellow;
+.yellow {
+  --hueColor: 60;
+  --satColor: 100%;
+  --lumColor: 40%;
+  --color: yellow;
 }
-.green{
-    --hueColor: 120;
-    --satColor: 100%;
-    --lumColor: 20%;
-    --color: green;
+.green {
+  --hueColor: 120;
+  --satColor: 100%;
+  --lumColor: 20%;
+  --color: green;
 }
-.royalblue{
-    --hueColor: 225;
-    --satColor: 73%;
-    --lumColor: 47%;
-    --color: royalblue;
+.royalblue {
+  --hueColor: 225;
+  --satColor: 73%;
+  --lumColor: 47%;
+  --color: royalblue;
 }
-.black{
-    --hueColor: 0;
-    --satColor: 0%;
-    --lumColor: 0%;
-    --color: black;
+.black {
+  --hueColor: 0;
+  --satColor: 0%;
+  --lumColor: 0%;
+  --color: black;
 }
-.darkcyan{
-    --hueColor: 180;
-    --satColor: 100%;
-    --lumColor: 22%;
-    --color: darkcyan;
+.darkcyan {
+  --hueColor: 180;
+  --satColor: 100%;
+  --lumColor: 22%;
+  --color: darkcyan;
 }
-.editing{
-    background-color: hsla(0, 100%, 100%, .5);
-    background-image: url('../img/editing.png');
-    background-position: bottom left;
-    background-repeat: no-repeat;
+.editing {
+  background-color: hsla(0, 100%, 100%, 0.5);
+  background-image: url("../img/editing.png");
+  background-position: bottom left;
+  background-repeat: no-repeat;
 }
-.saved{
-    background-color: hsla(0, 100%, 100%, .5);
-    background-image: url('../img/saved.png');
-    background-position: bottom left;
-    background-repeat: no-repeat;
+.saved {
+  background-color: hsla(0, 100%, 100%, 0.5);
+  background-image: url("../img/saved.png");
+  background-position: bottom left;
+  background-repeat: no-repeat;
 }
 /*SEARCH BOX*/
-.searchBox{
-    position: relative;
-    color:white;
-    background-color: transparent;
-    border: 2px inset white;
-    margin-left: 50px;
+.searchBox {
+  position: relative;
+  color: white;
+  background-color: transparent;
+  border: 2px inset white;
+  margin-left: 50px;
 }
